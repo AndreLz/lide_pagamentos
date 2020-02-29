@@ -1,7 +1,7 @@
 import parse from 'parse';
 
 //if (process.env.NODE_ENV === 'production') {
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV !== 'development') {
     parse.initialize(
         "9kQDDQDoZ71udsbx5lpbMVeJiNB35zlwc6lwKzKd",
         "R9QBWQEOaSLzOSGdVcYBMgFyTst1WaSM7ecQydYx"
