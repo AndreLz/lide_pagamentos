@@ -10,7 +10,11 @@ const getters = {
     getSaidas: state => state.saidas,
 }
 const mutations = {
-    SET_SAIDAS: (state, payload) => state.saidas = payload
+    SET_SAIDAS: (state, payload) => state.saidas = payload,
+    UPDATE_SAIDA: (state, payload) => {
+        var index = state.saidas.findIndex(x => x.id == payload.id);
+        state.saidas.splice(index, 1, reduz(payload));
+    },
 }
 function reduz(saidaObj) {
     const saida = saidaObj.attributes;
@@ -44,8 +48,7 @@ const actions = {
             //só trocando o bool do pendente com !pendente. 
             vue.$parse.Cloud.run("changePendenteSaidaFinanceira", { id: payload.id, newPendente: !payload.pendente })
                 .then(resp => {
-              
-                    console.log(resp);
+                    commit('UPDATE_SAIDA', resp)
                     resolve();
                 })
                 .catch(error => reject(error));
