@@ -1,7 +1,5 @@
 var nodemailer = require('nodemailer');
 var sendEmail = require("./sendEmail.js");
-
-
 var consts = require("./consts.js");
 
 // ====================================== Pendencias =======================================================================
@@ -41,6 +39,22 @@ Parse.Cloud.define("fetchPendenciasFinanceirasApp", async function (req, res) {
         query.equalTo("parte", parte);
     }
     query.include("processo");
+    query.find({ useMasterKey: true })
+        .then((results) => res.success(results))
+        .catch((error) => res.error(error))
+});
+
+// Pode ser substituida pela de cima
+Parse.Cloud.define("fetchPendenciaFinanceiraApp", async function (req, res) {
+    const queryProcesso = new Parse.Query("Processo");
+    const processo = await queryProcesso.get(req.params.processo);
+    console.log('Processo->', processo)
+
+    const query = new Parse.Query("FinanceiroPendencia");
+    query.equalTo("processo", processo);
+
+    query.include("processo");
+    query.include("parte");
     query.find({ useMasterKey: true })
         .then((results) => res.success(results))
         .catch((error) => res.error(error))
@@ -148,6 +162,34 @@ Parse.Cloud.define("novaDevolucaoFinanceiraApp", async function (req, res) {
         .catch((error) => res.error(error));
 });
 
+Parse.Cloud.define("fetchDevolucoesFinanceiras", async function (req, res) {
+    const query = new Parse.Query("FinanceiroDevolucao");
+    if (req.params.parte) {
+        const queryUser = new Parse.Query(new Parse.User());
+        var arbitroUser = await queryUser.get(req.params.parte, { useMasterKey: true });
+        query.equalTo("arbitroUser", arbitroUser);
+    }
+    if (req.params.processo) {
+        const queryProcesso = new Parse.Query("Processo");
+        const processo = await queryProcesso.get(req.params.processo);
+        query.equalTo("processo", processo);
+    }
+    query.include("processo");
+    query.include("parte");
+    query.find({ useMasterKey: true })
+        .then((results) => res.success(results))
+        .catch((error) => res.error(error))
+});
+
+Parse.Cloud.define("changePendenteDevolucaoFinanceira", async function (req, res) {
+    const query = new Parse.Query("FinanceiroDevolucao");
+    const devolucao = await query.get(req.params.id);
+    devolucao.set("pendente", req.params.newPendente);
+    devolucao.save()
+        .then((result) => res.success(result))
+        .catch((error) => res.error(error));
+});
+
 // =================================================== Entradas ====================================================================
 
 function createEntrada(args, parte, processo, pendencia) {
@@ -227,6 +269,15 @@ Parse.Cloud.define("fetchSaidasFinanceirasApp", async function (req, res) {
     query.find({ useMasterKey: true })
         .then((results) => res.success(results))
         .catch((error) => res.error(error))
+});
+
+Parse.Cloud.define("changePendenteSaidaFinanceira", async function (req, res) {
+    const query = new Parse.Query("FinanceiroSaida");
+    const saida = await query.get(req.params.id);
+    saida.set("pendente", req.params.newPendente);
+    saida.save()
+        .then((result) => res.success(result))
+        .catch((error) => res.error(error));
 });
 
 

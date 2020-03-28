@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-data-table
       :headers="headers"
-      :items="saidas"
+      :items="devolucoes"
       class="elevation-1"
       :footer-props="{
       itemsPerPageText:'Processos por página',
@@ -25,20 +25,20 @@
       </template>
     </v-data-table>
 
-    <v-dialog v-if="saidaObj" v-model="dialogConfirm" width="500">
+    <v-dialog v-if="devolucaoObj" v-model="dialogConfirm" width="500">
       <template v-slot:activator="{ on }">
         <v-icon v-on="on" color="red lighten-2"></v-icon>
       </template>
       <v-card>
         <v-card-title class="headline grey lighten-2" primary-title>{{msg}}</v-card-title>
         <v-container>
-          <p>R$ {{saidaObj.valor}}</p>
+          <p>R$ {{devolucaoObj.valor}}</p>
         </v-container>
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn text @click="dialogConfirm = false">Não</v-btn>
-          <v-btn :loading="loading" color="red darken-1" text @click="changeStatus(saidaObj)">Sim</v-btn>
+          <v-btn :loading="loading" color="red darken-1" text @click="changeStatus(devolucaoObj)">Sim</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -51,7 +51,7 @@ export default {
   data() {
     return {
       dialogConfirm: false,
-      saidaObj: null,
+      devolucaoObj: null,
       loading: false,
       msg: "",
       headers: [
@@ -61,7 +61,7 @@ export default {
           sortable: false,
           value: "numProcesso"
         },
-        { text: "Árbitro", value: "nome" },
+        { text: "Parte", value: "nome" },
         { text: "Valor a pagar o árbitro", value: "valor", align: "center" },
         { text: "Recebido em", value: "data" },
         { text: "Descrição", value: "descricao" },
@@ -70,27 +70,27 @@ export default {
     };
   },
   methods: {
-    changeStatusConfirm(saida) {
-      if (saida.pendente) this.msg = "Marcar esta saida como paga?";
-      else this.msg = "Marcar esta saida como pendente?";
-      this.saidaObj = saida;
+    changeStatusConfirm(devolucao) {
+      if (devolucao.pendente) this.msg = "Marcar esta devolução como feita?";
+      else this.msg = "Disfazer esta devolucao?";
+      this.devolucaoObj = devolucao;
       this.dialogConfirm = true;
     },
-    async changeStatus(saidaObj) {
+    async changeStatus(devolucaoObj) {
       this.loading = true;
       try {
-        await this.trocarPendente(saidaObj);
+        await this.trocarPendente(devolucaoObj);
       } catch (e) {
         console.log(e);
       }
       this.loading = false;
       this.dialogConfirm = false;
-      this.$store.dispatch("saida/getSaidas");
+      this.$store.dispatch("devolucao/getDevolucoes");
     },
-    ...mapActions("saida", ["trocarPendente"])
+    ...mapActions("devolucao", ["trocarPendente"])
   },
   computed: {
-    ...mapGetters("saida", { saidas: "getSaidas" })
+    ...mapGetters("devolucao", { devolucoes: "getDevolucoes" })
   }
 };
 </script>

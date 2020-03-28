@@ -19,35 +19,5 @@ export default {
 </script>
 
 <style scoped>
-#financ {
-  margin-bottom: 0;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
-  text-align: left;
-  width: 1060px;
-}
 
-.left-column {
-  border-color: #ebebeb;
-  border-style: solid;
-  border-width: 0 1px 0 0;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  display: table-cell;
-  padding-right: 10px;
-  vertical-align: top;
-  width: 725px;
-}
-
-.right-column {
-  display: table-cell;
-  padding-left: 10px;
-  vertical-align: top;
-  width: 300px;
-}
-
-.page-common .pt12 {
-  padding-top: 12px !important;
-}
 </style>

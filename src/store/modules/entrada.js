@@ -10,9 +10,8 @@ const getters = {
 
 }
 const mutations = {
-    SET_ENTRADAS: function (state, payload) {
-        state.entradas = payload;
-    },
+    SET_ENTRADAS: (state, payload) => state.entradas = payload
+
 }
 
 function reduz(entrada) {
@@ -24,7 +23,7 @@ function reduz(entrada) {
         taxa: entrada.taxa,
         data: vue.$helpers.ddMMyyyy(entrada.createdAt),
         descricao: entrada.descricao,
-        tipo: entrada.idBoleto ? 'mdi-barcode':'mdi-credit-card',
+        tipo: entrada.idBoleto ? 'mdi-barcode' : 'mdi-credit-card',
     }
 }
 

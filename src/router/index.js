@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import Entrada from '@/views/Financeiro/Entrada.vue'
 import Saida from '@/views/Financeiro/Saida.vue'
+import Devolucao from '@/views/Financeiro/Devolucao.vue'
 
 import Home from '@/views/Home.vue'
 import Dev from '@/views/Dev.vue'
@@ -10,13 +11,9 @@ import Dev from '@/views/Dev.vue'
 Vue.use(VueRouter)
 
 const routes = [
+
   {
     path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/dev',
     name: 'Testes',
     component: Dev
   },
@@ -29,6 +26,11 @@ const routes = [
     path: '/saida',
     name: 'Saida',
     component: Saida
+  },
+  {
+    path: '/devolucao',
+    name: 'Devolução',
+    component: Devolucao
   }
 ]
 

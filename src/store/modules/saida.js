@@ -7,14 +7,16 @@ const state = {
 
 const getters = {
     saidasLen: state => state.saidas.length,
+    getSaidas: state => state.saidas,
 }
 const mutations = {
     SET_SAIDAS: (state, payload) => state.saidas = payload
 }
-function reduz(saida) {
-    saida = saida.attributes;
+function reduz(saidaObj) {
+    const saida = saidaObj.attributes;
     const processo = saida.processo.attributes;
     const user = saida.arbitroUser.attributes;
+
     return {
         numProcesso: processo.numeroProcesso,
         nome: user.nome,
@@ -23,6 +25,7 @@ function reduz(saida) {
         data: vue.$helpers.ddMMyyyy(saida.createdAt),
         pendente: saida.pendente,
         descricao: saida.descricao,
+        id: saidaObj.id
     }
 }
 
@@ -35,6 +38,19 @@ const actions = {
             })
             .catch(error => console.log(error))
     },
+
+    trocarPendente: function ({ commit }, payload) {
+        return new Promise((resolve, reject) => {
+            //só trocando o bool do pendente com !pendente. 
+            vue.$parse.Cloud.run("changePendenteSaidaFinanceira", { id: payload.id, newPendente: !payload.pendente })
+                .then(resp => {
+              
+                    console.log(resp);
+                    resolve();
+                })
+                .catch(error => reject(error));
+        });
+    }
 };
 
 

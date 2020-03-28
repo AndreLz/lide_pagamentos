@@ -56,11 +56,8 @@ export default {
       this.$router.push("/");
     },
     next2: () => console.log("asdad")
-  },
-  created() {
-    this.$store.dispatch("saida/getSaidas");
-    this.$store.dispatch("entrada/getEntradas");
   }
+  
 };
 </script>
 

@@ -6,12 +6,10 @@
 
     <v-spacer></v-spacer>
 
+   
+
     <v-btn to="/" text replace>
       <span class="mr-2">Home</span>
-    </v-btn>
-
-    <v-btn to="/dev" text replace>
-      <span class="mr-2">Dev</span>
     </v-btn>
 
     <v-btn to="/entrada" text replace>
@@ -20,6 +18,10 @@
 
     <v-btn to="/saida" text>
       <span class="mr-2">Saidas</span>
+    </v-btn>
+
+    <v-btn to="/devolucao" text>
+      <span class="mr-2">Devolução</span>
     </v-btn>
   </v-app-bar>
 </template>

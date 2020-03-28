@@ -50,9 +50,7 @@ export default {
     ...mapGetters("entrada", ["entradasLen"])
   },
 
-  created() {
-   
-  }
+
 };
 </script>
 
